@@ -2,7 +2,7 @@ package com.rays.preparedStatement;
 
 import java.util.Date;
 
-public class Userbean {
+public class UserBean {
 	
 private int id;
 private String firstname;
