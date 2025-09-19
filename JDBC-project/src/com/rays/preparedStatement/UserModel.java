@@ -1,6 +1,7 @@
 package com.rays.preparedStatement;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,8 +28,18 @@ public class UserModel {
 		return pk + 1;
 	}
 	
-	public void add(UserBean bean) throws ClassNotFoundException, SQLException {
+	//ADD QUERY
+
+	public void add(UserBean bean) throws Exception {
 		
+	
+
+			UserBean existsBean = findByLogin(bean.getLogin());
+
+			if (existsBean != null) {
+				throw new Exception("login id already exist");
+			}
+
 
 		Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -37,17 +48,124 @@ public class UserModel {
 		PreparedStatement pstmt = conn.prepareStatement("insert into st_user values(?,?,?,?,?,?)");
 		int pk = nextpk();
 
-	    pstmt.setInt(1, pk);
-	    pstmt.setString(2, bean.getFirstname());
-	    pstmt.setString(3, bean.getLastname());
-	    pstmt.setString(4, bean.getLogin());
-	    pstmt.setString(5, bean.getPassword());
-	    pstmt.setDate(6, new java.sql.Date(bean.getDob().getTime()));
-	    
-	    int i = pstmt.executeUpdate();
-	    System.out.println("data inserted successfully: " + i);
-	    conn.close();
+		pstmt.setInt(1, pk);
+		pstmt.setString(2, bean.getFirstname());
+		pstmt.setString(3, bean.getLastname());
+		pstmt.setString(4, bean.getLogin());
+		pstmt.setString(5, bean.getPassword());
+		pstmt.setDate(6, new java.sql.Date(bean.getDob().getTime()));
+
+		int i = pstmt.executeUpdate();
+		System.out.println("data inserted successfully: " + i);
+		conn.close();
+
+	}
+	
+	
+	//delete query
+
+	public void delete(UserBean bean) throws ClassNotFoundException, SQLException {
+
+		Class.forName("com.mysql.cj.jdbc.Driver");
+
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "root");
+
+		PreparedStatement pstmt = conn.prepareStatement("delete from st_user where id = ?");
+
+		pstmt.setInt(1, bean.getId());
+
+		int i = pstmt.executeUpdate();
+
+		System.out.println("data deleted succesfully: " + i);
+
+		conn.close();
+
+	}
+	
+	
+	//update query
+
+	public void update(UserBean bean) throws ClassNotFoundException, SQLException {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "root");
+
+		PreparedStatement pstmt = conn.prepareStatement(
+				"update st_user set firstName = ?, lastName = ?, login = ?, password = ?, dob = ? where id = ?");
+
+		pstmt.setString(1, bean.getFirstname());
+		pstmt.setString(2, bean.getLastname());
+		pstmt.setString(3, bean.getLogin());
+		pstmt.setString(4, bean.getPassword());
+		pstmt.setDate(5, new java.sql.Date(bean.getDob().getTime()));
+		pstmt.setInt(6, bean.getId());
+		
+		
+         int i = pstmt.executeUpdate();
+		System.out.println("Data updated successfully");
+		conn.close();
+
+	}
+	
+	//FIND BY LOGIN QUERY
+	
+	public UserBean findByLogin(String login) throws ClassNotFoundException, SQLException {
+
+		Class.forName("com.mysql.cj.jdbc.Driver");
+
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "root");
+
+		PreparedStatement pstmt = conn.prepareStatement("select * from st_user where login = ?");
+		
+		pstmt.setString(1, login);
+		
+		ResultSet rs = pstmt.executeQuery();
+
+		UserBean bean = null;
+		while (rs.next()) {
+			bean = new UserBean();
+
+			bean.setLogin(rs.getString(4));
+
+
+		}
+		return bean;
+		
 		
 		
 	}
+	
+	
+	//AUTHENTICATE QUERY
+	
+
+	public UserBean authenticate(String login, String password) throws Exception {
+
+		Class.forName("com.mysql.cj.jdbc.Driver");
+
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "root");
+
+		PreparedStatement pstmt = conn.prepareStatement("select * from st_user where login = ? and password = ?");
+		
+		pstmt.setString(1, login);
+		pstmt.setString(2, password);
+
+		ResultSet rs = pstmt.executeQuery();
+
+		UserBean bean = null;
+
+		while (rs.next()) {
+
+			bean = new UserBean();
+
+	        bean.setFirstname(rs.getString(2));
+			bean.setLastname(rs.getString(3));
+			bean.setLogin(rs.getString(4));
+			bean.setPassword(rs.getString(5));
+
+			
+		}	
+		return bean;
+
+}
 }
