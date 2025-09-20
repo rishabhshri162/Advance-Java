@@ -15,8 +15,9 @@ public class TestUserModel {
 //		testAdd();
 //		testDelete();
 	    //testUpdate();
-		testFindByLogin();
-//		testAuthenticate();
+//		testFindByLogin();
+//	testAuthenticate();
+		testChangePassword();
 	}
 	
 	//Test add 
@@ -87,7 +88,7 @@ public static void testFindByLogin() throws Exception {
 //test authenticate
 
 
-private static void testAuthenticate() throws Exception {
+public static void testAuthenticate() throws Exception {
 
 	UserModel model = new UserModel();
 
@@ -102,4 +103,13 @@ private static void testAuthenticate() throws Exception {
 	}
 
 }
+
+//test change password
+
+public static void testChangePassword() throws Exception {
+	UserModel  model = new UserModel ();
+	model.changePassword("vs@gmail.com", "fsgvvfcd", "vs123");
 }
+
+}
+

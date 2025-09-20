@@ -125,10 +125,18 @@ public class UserModel {
 		while (rs.next()) {
 			bean = new UserBean();
 
+			bean = new UserBean();
+            bean.setId(rs.getInt(1));
+	        bean.setFirstname(rs.getString(2));
+			bean.setLastname(rs.getString(3));
 			bean.setLogin(rs.getString(4));
+			bean.setPassword(rs.getString(5));
+			bean.setDob(rs.getDate(6));
+
 
 
 		}
+		conn.close();
 		return bean;
 		
 		
@@ -157,15 +165,46 @@ public class UserModel {
 		while (rs.next()) {
 
 			bean = new UserBean();
-
+            bean.setId(rs.getInt(1));
 	        bean.setFirstname(rs.getString(2));
 			bean.setLastname(rs.getString(3));
 			bean.setLogin(rs.getString(4));
 			bean.setPassword(rs.getString(5));
+			bean.setDob(rs.getDate(6));
 
 			
 		}	
+		conn.close();
 		return bean;
 
 }
-}
+	
+	// 	Change password
+	
+	public void changePassword(String login, String password, String newPassword) throws Exception {
+		
+		UserBean bean = authenticate(login, password);
+		
+		if (bean != null) {
+			
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "root");
+			PreparedStatement pstmt = conn.prepareStatement(
+					"update st_user set password = ? where id =?");
+			
+			pstmt.setString(1, newPassword);
+			pstmt.setInt(2, bean.getId());
+			pstmt.executeUpdate();
+			
+			System.out.println("Password changed successfully");
+		} else {
+			throw new RuntimeException("Wrong Username or Password");
+		}
+
+	}	
+		
+		
+			
+	}
+	
+
