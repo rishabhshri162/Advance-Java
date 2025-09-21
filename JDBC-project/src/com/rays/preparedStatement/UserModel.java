@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserModel {
 
@@ -201,7 +203,69 @@ public class UserModel {
 			throw new RuntimeException("Wrong Username or Password");
 		}
 
-	}	
+	}
+	
+	//Find by id
+	
+	public UserBean findById(int id) throws Exception {
+
+		Class.forName("com.mysql.cj.jdbc.Driver");
+
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "root");
+
+		PreparedStatement pstmt = conn.prepareStatement("select * from st_user where id = ?");
+
+		pstmt.setInt(1, id);
+
+		ResultSet rs = pstmt.executeQuery();
+
+		UserBean bean = null;
+		while (rs.next()) {
+			bean = new UserBean();
+			bean.setId(rs.getInt(1));
+			bean.setFirstname(rs.getString(2));
+			bean.setFirstname(rs.getString(3));
+			bean.setLogin(rs.getString(4));
+			bean.setPassword(rs.getString(5));
+			bean.setDob(rs.getDate(6));
+
+		}
+
+		conn.close();
+		return bean;
+
+	}
+	
+	//find by search
+
+	public List search(UserBean bean) throws Exception {
+
+		List list = new ArrayList();
+
+		StringBuffer sql = new StringBuffer("select * from st_user");
+
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "root");
+
+		System.out.println("sql ----> " + sql.toString());
+		PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+		ResultSet rs = pstmt.executeQuery();
+
+		while (rs.next()) {
+			bean = new UserBean();
+			bean.setId(rs.getInt(1));
+			bean.setFirstname(rs.getString(2));
+			bean.setLastname(rs.getString(3));
+			bean.setLogin(rs.getString(4));
+			bean.setPassword(rs.getString(5));
+			bean.setDob(rs.getDate(6));
+			list.add(bean);
+
+		}
+
+		return list;
+
+	}
 		
 		
 			
