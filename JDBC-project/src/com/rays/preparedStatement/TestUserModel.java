@@ -17,7 +17,7 @@ public class TestUserModel {
 //		testAdd();
 //		testDelete();
 		// testUpdate();
-//		testFindByLogin();
+//	 testFindByLogin();
 //	testAuthenticate();
 //		testChangePassword();
 		testSearch();
@@ -116,13 +116,17 @@ public class TestUserModel {
 	public static void testSearch() throws Exception {
 
 		UserModel model = new UserModel();
-
-		List list = model.search(null);
+		UserBean bean = new UserBean();
+		bean.setFirstname("n");
+//		bean.setLastname("m");
+//		bean.setId(1);
+//        bean.setLogin("");
+		List list = model.search(bean);
 
 		Iterator<UserBean> it = list.iterator();
 
 		while (it.hasNext()) {
-			UserBean bean = it.next();
+			bean = it.next();
 			System.out.print(bean.getId());
 			System.out.print("\t"+bean.getFirstname());
 			System.out.print("\t"+bean.getLastname());
