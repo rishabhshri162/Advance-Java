@@ -263,6 +263,11 @@ public class UserModel {
 			if(bean.getLogin()!= null && bean.getLogin().length()>0) {
 				sql.append(" and lastname like '%" + bean.getLogin() + "%'");
 		}
+			
+		if (bean.getDob()!=null) {
+			sql.append(" and dob = ' " +  new java.sql.Date(bean.getDob().getTime()) + " ' ");
+			
+		}
 		}
 
 		Class.forName("com.mysql.cj.jdbc.Driver");

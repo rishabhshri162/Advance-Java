@@ -114,6 +114,7 @@ public class TestUserModel {
 	//test Search 
 	
 	public static void testSearch() throws Exception {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 		UserModel model = new UserModel();
 		UserBean bean = new UserBean();
@@ -121,6 +122,7 @@ public class TestUserModel {
 //		bean.setLastname("m");
 //		bean.setId(1);
 //        bean.setLogin("");
+		bean.setDob(sdf.parse("1990-11-25"));
 		List list = model.search(bean);
 
 		Iterator<UserBean> it = list.iterator();
