@@ -26,6 +26,10 @@ public class TestApp {
 		ResourceBundle rb3 = ResourceBundle.getBundle("com.rays.bundle.app", new Locale("jp"));
 
 		System.out.println(rb3.getString("greeting"));
+		
+		ResourceBundle rb4 = ResourceBundle.getBundle("com.rays.bundle.app", new Locale("rs"));
+
+		System.out.println(rb4.getString("greeting"));
 
 	}
 
