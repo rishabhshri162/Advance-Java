@@ -19,8 +19,8 @@ public class TestDelete {
 			Statement stmt = conn.createStatement();
 
 			// 4. Execute Query and get ResultSet
-			int i = stmt.executeUpdate("delete from marksheet where rollNo = 17");
-			
+			int i = stmt.executeUpdate("delete from marksheet where rollNo In (14, 15)");
+		
 
 				System.out.println("Data deleted successfully: " + i);
 			

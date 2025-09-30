@@ -8,15 +8,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class UserModel {
+
+	ResourceBundle rb = ResourceBundle.getBundle("com.rays.bundle.app");
+	String url = rb.getString("url");
+	String driver = rb.getString("driver");
+	String username = rb.getString("username");
+	String password = rb.getString("password");
 
 	public int nextpk() throws SQLException, ClassNotFoundException {
 		int pk = 0;
 
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		Class.forName(driver);
 
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "root");
+		Connection conn = DriverManager.getConnection(url, username, password);
 
 		PreparedStatement pstmt = conn.prepareStatement("select max(id) from st_user");
 
@@ -29,23 +36,20 @@ public class UserModel {
 		conn.close();
 		return pk + 1;
 	}
-	
-	//ADD QUERY
+
+	// ADD QUERY
 
 	public void add(UserBean bean) throws Exception {
-		
-	
 
-			UserBean existsBean = findByLogin(bean.getLogin());
+		UserBean existsBean = findByLogin(bean.getLogin());
 
-			if (existsBean != null) {
-				throw new Exception("login id already exist");
-			}
+		if (existsBean != null) {
+			throw new Exception("login id already exist");
+		}
 
+		Class.forName(driver);
 
-		Class.forName("com.mysql.cj.jdbc.Driver");
-
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "root");
+		Connection conn = DriverManager.getConnection(url, username, password);
 
 		PreparedStatement pstmt = conn.prepareStatement("insert into st_user values(?,?,?,?,?,?)");
 		int pk = nextpk();
@@ -62,9 +66,8 @@ public class UserModel {
 		conn.close();
 
 	}
-	
-	
-	//delete query
+
+	// delete query
 
 	public void delete(UserBean bean) throws ClassNotFoundException, SQLException {
 
@@ -83,9 +86,8 @@ public class UserModel {
 		conn.close();
 
 	}
-	
-	
-	//update query
+
+	// update query
 
 	public void update(UserBean bean) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
@@ -101,16 +103,15 @@ public class UserModel {
 		pstmt.setString(4, bean.getPassword());
 		pstmt.setDate(5, new java.sql.Date(bean.getDob().getTime()));
 		pstmt.setInt(6, bean.getId());
-		
-		
-         int i = pstmt.executeUpdate();
+
+		int i = pstmt.executeUpdate();
 		System.out.println("Data updated successfully");
 		conn.close();
 
 	}
-	
-	//FIND BY LOGIN QUERY
-	
+
+	// FIND BY LOGIN QUERY
+
 	public UserBean findByLogin(String login) throws ClassNotFoundException, SQLException {
 
 		Class.forName("com.mysql.cj.jdbc.Driver");
@@ -118,9 +119,9 @@ public class UserModel {
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "root");
 
 		PreparedStatement pstmt = conn.prepareStatement("select * from st_user where login = ?");
-		
+
 		pstmt.setString(1, login);
-		
+
 		ResultSet rs = pstmt.executeQuery();
 
 		UserBean bean = null;
@@ -128,26 +129,20 @@ public class UserModel {
 			bean = new UserBean();
 
 			bean = new UserBean();
-            bean.setId(rs.getInt(1));
-	        bean.setFirstname(rs.getString(2));
+			bean.setId(rs.getInt(1));
+			bean.setFirstname(rs.getString(2));
 			bean.setLastname(rs.getString(3));
 			bean.setLogin(rs.getString(4));
 			bean.setPassword(rs.getString(5));
 			bean.setDob(rs.getDate(6));
 
-
-
 		}
 		conn.close();
 		return bean;
-		
-		
-		
+
 	}
-	
-	
-	//AUTHENTICATE QUERY
-	
+
+	// AUTHENTICATE QUERY
 
 	public UserBean authenticate(String login, String password) throws Exception {
 
@@ -156,7 +151,7 @@ public class UserModel {
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "root");
 
 		PreparedStatement pstmt = conn.prepareStatement("select * from st_user where login = ? and password = ?");
-		
+
 		pstmt.setString(1, login);
 		pstmt.setString(2, password);
 
@@ -167,46 +162,44 @@ public class UserModel {
 		while (rs.next()) {
 
 			bean = new UserBean();
-            bean.setId(rs.getInt(1));
-	        bean.setFirstname(rs.getString(2));
+			bean.setId(rs.getInt(1));
+			bean.setFirstname(rs.getString(2));
 			bean.setLastname(rs.getString(3));
 			bean.setLogin(rs.getString(4));
 			bean.setPassword(rs.getString(5));
 			bean.setDob(rs.getDate(6));
 
-			
-		}	
+		}
 		conn.close();
 		return bean;
 
-}
-	
-	// 	Change password
-	
+	}
+
+	// Change password
+
 	public void changePassword(String login, String password, String newPassword) throws Exception {
-		
+
 		UserBean bean = authenticate(login, password);
-		
+
 		if (bean != null) {
-			
+
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "root");
-			PreparedStatement pstmt = conn.prepareStatement(
-					"update st_user set password = ? where id =?");
-			
+			PreparedStatement pstmt = conn.prepareStatement("update st_user set password = ? where id =?");
+
 			pstmt.setString(1, newPassword);
 			pstmt.setInt(2, bean.getId());
 			pstmt.executeUpdate();
-			
+
 			System.out.println("Password changed successfully");
 		} else {
 			throw new RuntimeException("Wrong Username or Password");
 		}
 
 	}
-	
-	//Find by id
-	
+
+	// Find by id
+
 	public UserBean findById(int id) throws Exception {
 
 		Class.forName("com.mysql.cj.jdbc.Driver");
@@ -235,39 +228,38 @@ public class UserModel {
 		return bean;
 
 	}
-	
-	//find by search
+
+	// find by search
 
 	public List search(UserBean bean) throws Exception {
 
 		List list = new ArrayList();
 
 		StringBuffer sql = new StringBuffer("select * from st_user where 1=1");
-		
-		if(bean!=null) {
-			if(bean.getFirstname()!= null && bean.getFirstname().length()>0) {
+
+		if (bean != null) {
+			if (bean.getFirstname() != null && bean.getFirstname().length() > 0) {
 				sql.append(" and firstname like '%" + bean.getFirstname() + "%'");
-				
+
 			}
-			if(bean.getLastname()!= null && bean.getLastname().length()>0) {
+			if (bean.getLastname() != null && bean.getLastname().length() > 0) {
 				sql.append(" and lastname like '%" + bean.getLastname() + "%'");
-				
+
 			}
-			
-			if(bean.getId()>0 && bean.getId()<nextpk()){
+
+			if (bean.getId() > 0 && bean.getId() < nextpk()) {
 				sql.append(" and id like '%" + bean.getId() + "%'");
-				
-				
+
 			}
-			
-			if(bean.getLogin()!= null && bean.getLogin().length()>0) {
+
+			if (bean.getLogin() != null && bean.getLogin().length() > 0) {
 				sql.append(" and lastname like '%" + bean.getLogin() + "%'");
-		}
-			
-		if (bean.getDob()!=null) {
-			sql.append(" and dob = ' " +  new java.sql.Date(bean.getDob().getTime()) + " ' ");
-			
-		}
+			}
+
+			if (bean.getDob() != null) {
+				sql.append(" and dob = ' " + new java.sql.Date(bean.getDob().getTime()) + " ' ");
+
+			}
 		}
 
 		Class.forName("com.mysql.cj.jdbc.Driver");
@@ -292,10 +284,5 @@ public class UserModel {
 		return list;
 
 	}
-		
-		
-			
-	}
 
-	
-
+}

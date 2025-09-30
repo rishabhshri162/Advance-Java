@@ -18,7 +18,9 @@ public class TestInsert {
 		Statement stmt = conn.createStatement();
 
 		// 4. Execute Query and get ResultSet
-		int i = stmt.executeUpdate("insert into marksheet values(18,'chelsi', 25,85,58)");
+		int i = stmt.executeUpdate("insert into marksheet values(15,'rahul', 55,65,58)");
+
+//		
 		
 
 			System.out.println("Data added successfully: " + i);

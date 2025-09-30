@@ -21,7 +21,7 @@ public class TestUserModel {
 //	testAuthenticate();
 //		testChangePassword();
 		testSearch();
-		
+
 	}
 
 	// Test add
@@ -110,9 +110,9 @@ public class TestUserModel {
 		UserModel model = new UserModel();
 		model.changePassword("vs@gmail.com", "fsgvvfcd", "vs123");
 	}
-	
-	//test Search 
-	
+
+	// test Search
+
 	public static void testSearch() throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -130,11 +130,11 @@ public class TestUserModel {
 		while (it.hasNext()) {
 			bean = it.next();
 			System.out.print(bean.getId());
-			System.out.print("\t"+bean.getFirstname());
-			System.out.print("\t"+bean.getLastname());
-			System.out.print("\t"+bean.getLogin());
-			System.out.print("\t"+bean.getPassword());
-			System.out.println("\t"+bean.getDob());
+			System.out.print("\t" + bean.getFirstname());
+			System.out.print("\t" + bean.getLastname());
+			System.out.print("\t" + bean.getLogin());
+			System.out.print("\t" + bean.getPassword());
+			System.out.println("\t" + bean.getDob());
 		}
 
 	}

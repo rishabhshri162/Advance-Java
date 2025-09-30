@@ -21,16 +21,15 @@ public class TestApp {
 		ResourceBundle rb2 = ResourceBundle.getBundle("com.rays.bundle.app", new Locale("sp"));
 
 		System.out.println("Spanish: " + rb2.getString("greeting"));
-		
 
 		ResourceBundle rb3 = ResourceBundle.getBundle("com.rays.bundle.app", new Locale("jp"));
 
 		System.out.println("Japenese: " + rb3.getString("greeting"));
-		
+
 		ResourceBundle rb4 = ResourceBundle.getBundle("com.rays.bundle.app", new Locale("rs"));
 
 		System.out.println("Russian: " + rb4.getString("greeting"));
-		
+
 		ResourceBundle rb5 = ResourceBundle.getBundle("com.rays.bundle.app", new Locale("fr"));
 
 		System.out.println("French: " + rb5.getString("greeting"));
