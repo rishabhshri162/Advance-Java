@@ -32,10 +32,10 @@ public final class JDBCDataSource {
 			ResourceBundle rb = ResourceBundle.getBundle("com.rays.bundle.app");
 
 			try {
-				datasource.cpds.setDriverClass("driver");
-				datasource.cpds.setJdbcUrl("url");
-				datasource.cpds.setUser("username");
-				datasource.cpds.setPassword("password");
+				datasource.cpds.setDriverClass(rb.getString("driver"));
+				datasource.cpds.setJdbcUrl(rb.getString("url"));
+				datasource.cpds.setUser(rb.getString("username"));
+				datasource.cpds.setPassword(rb.getString("password"));
 				datasource.cpds.setAcquireIncrement(Integer.parseInt(rb.getString("acquireIncrement")));
 				datasource.cpds.setInitialPoolSize(Integer.parseInt(rb.getString("initialPoolSize")));
 				datasource.cpds.setMaxPoolSize(Integer.parseInt(rb.getString("maxPoolSize")));
