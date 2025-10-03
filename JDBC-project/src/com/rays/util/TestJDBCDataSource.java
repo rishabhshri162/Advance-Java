@@ -14,7 +14,7 @@ public class TestJDBCDataSource {
 		}
 	}
 	
-	public static void testSearch() {
+	public static void testSearch() throws Exception {
 		Connection conn = null;
 		
 		try {
@@ -34,6 +34,7 @@ public class TestJDBCDataSource {
 		} catch (Exception e) {
 		e.printStackTrace();
 		}
+		JDBCDataSource.closeConnection(conn);
 	}
 
 }
