@@ -1,0 +1,162 @@
+
+
+1. INTRODUCTION TO SQL
+SQL (Structured Query Language) is used to manage and manipulate relational databases.
+Hindi: SQL ek language hai jisse hum database ke data ko manage karte hain.
+
+--------------------------------------------
+2. DATABASE COMMANDS
+--------------------------------------------
+CREATE DATABASE mydb;
+USE mydb;
+SHOW DATABASES;
+DROP DATABASE mydb;
+Hindi: Ye commands database create, use aur delete karne ke liye hoti hain.
+
+--------------------------------------------
+3. TABLE COMMANDS
+--------------------------------------------
+CREATE TABLE students (
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    age INT,
+    city VARCHAR(50)
+);
+Hindi: Ye table create karta hai jisme columns defined hote hain.
+
+SHOW TABLES;
+DESC students;
+DROP TABLE students;
+
+--------------------------------------------
+4. INSERT, SELECT, UPDATE, DELETE
+--------------------------------------------
+INSERT INTO students VALUES (1, 'Ravi', 22, 'Delhi');
+SELECT * FROM students;
+SELECT name, city FROM students WHERE age > 20;
+UPDATE students SET city='Mumbai' WHERE id=1;
+DELETE FROM students WHERE id=1;
+Hindi: Ye data insert, read, update aur delete karne ke liye use hoti hain.
+
+--------------------------------------------
+5. CONSTRAINTS
+--------------------------------------------
+NOT NULL, UNIQUE, PRIMARY KEY, FOREIGN KEY, CHECK, DEFAULT
+Hindi: Constraints data ke accuracy aur integrity maintain karte hain.
+
+Example:
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    amount DECIMAL(10,2) CHECK (amount > 0),
+    customer_id INT,
+    FOREIGN KEY (customer_id) REFERENCES customers(id)
+);
+
+--------------------------------------------
+6. SELECT CLAUSE (BASIC)
+--------------------------------------------
+SELECT * FROM employees;
+SELECT name, salary FROM employees WHERE salary > 50000;
+SELECT DISTINCT city FROM customers;
+Hindi: SELECT data retrieve karne ke liye hota hai.
+
+--------------------------------------------
+7. OPERATORS
+--------------------------------------------
+=, >, <, >=, <=, <>, AND, OR, NOT, IN, BETWEEN, LIKE
+Example:
+SELECT * FROM students WHERE city IN ('Delhi', 'Mumbai');
+SELECT * FROM students WHERE name LIKE 'A%';
+Hindi: Operators condition specify karne ke liye use hote hain.
+
+--------------------------------------------
+8. ORDER BY, GROUP BY, HAVING
+--------------------------------------------
+SELECT * FROM employees ORDER BY salary DESC;
+SELECT city, COUNT(*) FROM customers GROUP BY city HAVING COUNT(*) > 2;
+Hindi: ORDER BY sorting ke liye, GROUP BY grouping ke liye, HAVING filter group ke liye.
+
+--------------------------------------------
+9. JOINS
+--------------------------------------------
+INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL JOIN
+Example:
+SELECT s.name, o.amount
+FROM students s
+INNER JOIN orders o ON s.id = o.student_id;
+Hindi: Join ka use do tables ke data ko connect karne ke liye hota hai.
+
+--------------------------------------------
+10. AGGREGATE FUNCTIONS
+--------------------------------------------
+COUNT(), SUM(), AVG(), MAX(), MIN()
+Hindi: Aggregate functions summarized data return karte hain.
+
+--------------------------------------------
+11. SUBQUERIES
+--------------------------------------------
+SELECT name, salary
+FROM employees
+WHERE salary > (SELECT AVG(salary) FROM employees);
+Hindi: Subquery ek query ke andar likhi hoti hai.
+
+--------------------------------------------
+12. VIEWS
+--------------------------------------------
+CREATE VIEW emp_view AS
+SELECT name, salary FROM employees WHERE salary > 40000;
+SELECT * FROM emp_view;
+DROP VIEW emp_view;
+Hindi: View ek virtual table hota hai jo ek query ke result par based hota hai.
+
+--------------------------------------------
+13. INDEXES
+--------------------------------------------
+CREATE INDEX idx_name ON employees(name);
+DROP INDEX idx_name ON employees;
+Hindi: Index data searching fast karta hai.
+
+--------------------------------------------
+14. STORED PROCEDURES
+--------------------------------------------
+DELIMITER //
+CREATE PROCEDURE getEmployees()
+BEGIN
+    SELECT * FROM employees;
+END //
+DELIMITER ;
+CALL getEmployees();
+Hindi: Procedure predefined SQL statements ka set hota hai.
+
+--------------------------------------------
+15. TRIGGERS
+--------------------------------------------
+CREATE TRIGGER before_insert_students
+BEFORE INSERT ON students
+FOR EACH ROW
+SET NEW.city = UPPER(NEW.city);
+Hindi: Trigger automatic actions perform karta hai jab event hota hai.
+
+--------------------------------------------
+16. TRANSACTIONS
+--------------------------------------------
+START TRANSACTION;
+UPDATE accounts SET balance = balance - 1000 WHERE id=1;
+UPDATE accounts SET balance = balance + 1000 WHERE id=2;
+COMMIT;
+ROLLBACK;
+Hindi: Transaction ensure karta hai ke multiple queries ek unit ke tarah kaam karein.
+
+--------------------------------------------
+17. COMMON INTERVIEW QUERIES
+--------------------------------------------
+Q1. Find 2nd highest salary:
+SELECT MAX(salary) FROM employees WHERE salary < (SELECT MAX(salary) FROM employees);
+
+Q2. Count employees in each department:
+SELECT dept_id, COUNT(*) FROM employees GROUP BY dept_id;
+
+Q3. Display customers who placed no orders:
+SELECT * FROM customers WHERE id NOT IN (SELECT customer_id FROM orders);
+Hindi: Ye queries interview me bahut common poochhi jaati hain.
+
