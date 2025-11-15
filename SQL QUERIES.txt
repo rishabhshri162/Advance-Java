@@ -1,5 +1,7 @@
 
 
+
+
 1. INTRODUCTION TO SQL
 SQL (Structured Query Language) is used to manage and manipulate relational databases.
 Hindi: SQL ek language hai jisse hum database ke data ko manage karte hain.
