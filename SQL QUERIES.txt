@@ -162,3 +162,5 @@ Q3. Display customers who placed no orders:
 SELECT * FROM customers WHERE id NOT IN (SELECT customer_id FROM orders);
 Hindi: Ye queries interview me bahut common poochhi jaati hain.
 
+
+
